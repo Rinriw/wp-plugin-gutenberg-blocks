@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "acf/hero",
+  "title": "Hero Section",
+  "description": "Sección hero con imagen de fondo y contenido centrado",
+  "category": "acf-blocks",
+  "icon": "cover-image",
+  "keywords": ["hero", "banner", "header", "portada"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "render.php",
+    "blockVersion": 3
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true,
+    "customClassName": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview"
+    }
+  }
+}

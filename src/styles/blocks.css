@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Estilos base para bloques ACF
+ * 
+ * Este archivo genera las clases Tailwind con prefijo acfb-
+ * NO agregar CSS custom aquí - usar solo clases Tailwind
+ */
+
+/* Scrollbar hide para carruseles */
+@layer utilities {
+  .acfb-scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .acfb-scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Variables CSS personalizables (opcional) */
+:root {
+  --acfb-primary: theme('colors.primary.500');
+  --acfb-accent: theme('colors.accent.500');
+  --acfb-secondary: theme('colors.secondary.500');
+}
