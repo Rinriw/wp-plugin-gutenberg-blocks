@@ -1,0 +1,466 @@
+/**
+ * Testimonials Carousel Block Styles
+ * Responsive design con Tailwind CSS utilities (acfb- prefix)
+ */
+
+/* ============================================================================
+   CARRUSEL CONTAINER & LIST
+   ========================================================================== */
+
+.acf-block-testimonials-carousel {
+    --carousel-transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.acfb-carousel-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.acfb-carousel-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.5rem;
+    overflow: hidden;
+    transition: var(--carousel-transition);
+    scroll-behavior: smooth;
+}
+
+/* ============================================================================
+   CARRUSEL ITEMS (Slides)
+   ========================================================================== */
+
+.acfb-carousel-item {
+    flex: 1 0 100%;
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.acfb-carousel-item.acfb-active {
+    opacity: 1;
+}
+
+/* Desktop: 3 items visibles */
+@media (min-width: 768px) {
+    .acfb-carousel-item {
+        flex: 1 0 calc(33.333% - 1rem);
+        min-width: calc(33.333% - 1rem);
+    }
+}
+
+/* ============================================================================
+   TESTIMONIAL FIGURE & QUOTE
+   ========================================================================== */
+
+.acfb-testimonial-figure {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    height: 100%;
+}
+
+.acfb-carousel-item.acfb-active .acfb-testimonial-figure {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+}
+
+.acfb-testimonial-quote {
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.acfb-testimonial-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    font-style: italic;
+    margin: 0;
+    color: inherit;
+    word-wrap: break-word;
+}
+
+@media (min-width: 768px) {
+    .acfb-testimonial-text {
+        font-size: 1rem;
+        min-height: 5rem;
+    }
+}
+
+/* ============================================================================
+   TESTIMONIAL CAPTION (Author Info + Rating)
+   ========================================================================== */
+
+.acfb-testimonial-caption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    margin: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+/* Avatar */
+.acfb-testimonial-avatar-container {
+    flex-shrink: 0;
+}
+
+.acfb-testimonial-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e5e7eb;
+    transition: border-color 0.3s ease;
+}
+
+.acfb-carousel-item.acfb-active .acfb-testimonial-avatar {
+    border-color: var(--acfb-accent-main, #3b82f6);
+}
+
+/* Author Info */
+.acfb-testimonial-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.acfb-testimonial-author-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: inherit;
+}
+
+.acfb-testimonial-author-role {
+    font-size: 0.875rem;
+    margin: 0;
+    color: #6b7280;
+}
+
+/* ============================================================================
+   RATING STARS
+   ========================================================================== */
+
+.acfb-testimonial-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.acfb-stars-container {
+    display: flex;
+    gap: 0.25rem;
+    font-size: 1.25rem;
+}
+
+.acfb-star {
+    display: inline-block;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.acfb-star-filled {
+    color: var(--acfb-accent-main, #f59e0b);
+    text-shadow: 0 0 2px rgba(245, 158, 11, 0.3);
+}
+
+.acfb-star-empty {
+    color: #d1d5db;
+}
+
+.acfb-carousel-item.acfb-active .acfb-star-filled {
+    text-shadow: 0 0 4px rgba(245, 158, 11, 0.5);
+    animation: starGlow 0.3s ease;
+}
+
+@keyframes starGlow {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ============================================================================
+   NAVEGACIÓN: FLECHAS (Desktop)
+   ========================================================================== */
+
+.acfb-carousel-nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -4rem;
+    z-index: 10;
+}
+
+.acfb-carousel-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: #f3f4f6;
+    border: 2px solid #e5e7eb;
+    border-radius: 50%;
+    color: #374151;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.acfb-carousel-nav-btn:hover {
+    background: var(--acfb-accent-main, #f59e0b);
+    border-color: var(--acfb-accent-main, #f59e0b);
+    color: white;
+    transform: scale(1.1);
+}
+
+.acfb-carousel-nav-btn:active {
+    transform: scale(0.95);
+}
+
+.acfb-carousel-nav-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+}
+
+/* ============================================================================
+   INDICADORES: DOTS
+   ========================================================================== */
+
+.acfb-carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.acfb-carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d1d5db;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    position: relative;
+}
+
+.acfb-carousel-dot:hover {
+    background: #9ca3af;
+    transform: scale(1.2);
+}
+
+.acfb-carousel-dot.acfb-active {
+    background: var(--acfb-accent-main, #f59e0b);
+    width: 32px;
+    border-radius: 6px;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+}
+
+.acfb-carousel-dot:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+}
+
+/* ============================================================================
+   ACCESSIBILITY: FOCUS VISIBLE
+   ========================================================================== */
+
+.acfb-carousel-nav-btn:focus-visible,
+.acfb-carousel-dot:focus-visible {
+    outline: 2px solid var(--acfb-accent-main, #f59e0b);
+    outline-offset: 2px;
+}
+
+/* ============================================================================
+   MOBILE OPTIMIZATIONS
+   ========================================================================== */
+
+@media (max-width: 767px) {
+    .acfb-carousel-wrapper {
+        padding-bottom: 1rem;
+    }
+
+    .acfb-carousel-list {
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    .acfb-testimonial-figure {
+        padding: 1rem;
+    }
+
+    .acfb-carousel-nav {
+        display: none;
+    }
+
+    .acfb-carousel-indicators {
+        margin-top: 1.5rem;
+    }
+
+    .acfb-carousel-dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .acfb-carousel-dot.acfb-active {
+        width: 28px;
+    }
+
+    /* Swipe hint */
+    .acfb-carousel-list::after {
+        content: '';
+        position: absolute;
+        bottom: -2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.75rem;
+        color: #9ca3af;
+    }
+}
+
+/* ============================================================================
+   TABLET OPTIMIZATIONS
+   ========================================================================== */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .acfb-carousel-list {
+        gap: 1.25rem;
+    }
+
+    .acfb-testimonial-figure {
+        padding: 1.25rem;
+    }
+
+    .acfb-carousel-nav {
+        bottom: -3.5rem;
+    }
+
+    .acfb-carousel-nav-btn {
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* ============================================================================
+   DARK MODE SUPPORT (Opcional)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    .acfb-testimonial-figure {
+        background: #1f2937;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .acfb-carousel-item.acfb-active .acfb-testimonial-figure {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .acfb-testimonial-caption {
+        border-top-color: #374151;
+    }
+
+    .acfb-testimonial-avatar {
+        border-color: #374151;
+    }
+
+    .acfb-carousel-item.acfb-active .acfb-testimonial-avatar {
+        border-color: var(--acfb-accent-main, #fbbf24);
+    }
+
+    .acfb-carousel-nav-btn {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f3f4f6;
+    }
+
+    .acfb-carousel-nav-btn:hover {
+        background: var(--acfb-accent-main, #fbbf24);
+        border-color: var(--acfb-accent-main, #fbbf24);
+        color: #000;
+    }
+
+    .acfb-carousel-dot {
+        background: #4b5563;
+    }
+
+    .acfb-carousel-dot:hover {
+        background: #6b7280;
+    }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    .acfb-carousel-list {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .acfb-carousel-item {
+        flex: 1 0 auto;
+        min-width: 100%;
+        opacity: 1;
+    }
+
+    .acfb-carousel-nav,
+    .acfb-carousel-indicators {
+        display: none;
+    }
+}
+
+/* ============================================================================
+   REDUCED MOTION (Accesibilidad)
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .acf-block-testimonials-carousel {
+        --carousel-transition: none;
+    }
+
+    .acfb-testimonial-figure,
+    .acfb-carousel-nav-btn,
+    .acfb-carousel-dot,
+    .acfb-star {
+        transition: none !important;
+    }
+
+    .acfb-carousel-nav-btn:hover {
+        transform: none;
+    }
+
+    .acfb-carousel-dot:hover {
+        transform: none;
+    }
+
+    @keyframes starGlow {
+        0%, 50%, 100% {
+            transform: scale(1);
+        }
+    }
+}

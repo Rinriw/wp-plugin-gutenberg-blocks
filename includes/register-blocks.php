@@ -46,7 +46,7 @@ function acf_blocks_register_blocks() {
 add_action('init', 'acf_blocks_register_blocks');
 
 /**
- * Encolar JavaScript de bloques individuales
+ * Encolar JavaScript y CSS de bloques individuales
  */
 function acf_blocks_enqueue_block_scripts() {
     $blocks_dir = ACF_BLOCKS_PATH . 'blocks/';
@@ -60,6 +60,7 @@ function acf_blocks_enqueue_block_scripts() {
     foreach ($blocks as $block) {
         $block_name = basename($block);
         $js_file = $block . '/' . $block_name . '.js';
+        $css_file = $block . '/styles.css';
         
         // Encolar JS si existe
         if (file_exists($js_file)) {
@@ -69,6 +70,16 @@ function acf_blocks_enqueue_block_scripts() {
                 [],
                 filemtime($js_file),
                 true
+            );
+        }
+        
+        // Encolar CSS si existe
+        if (file_exists($css_file)) {
+            wp_enqueue_style(
+                'acf-block-' . $block_name . '-styles',
+                ACF_BLOCKS_URL . 'blocks/' . $block_name . '/styles.css',
+                [],
+                filemtime($css_file)
             );
         }
     }
