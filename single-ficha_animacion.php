@@ -138,9 +138,9 @@ get_header();
                     <?php endif; ?>
 
                     <!-- Sinopsis -->
-                    <div class="sinopsis-section">
-                        <strong>Sinopsis:</strong>
-                        <p><?php echo wp_kses_post($sinopsis); ?></p>
+                    <div class="info-row">
+                        <span class="info-label">Sinopsis:</span>
+                        <span class="info-valor"><?php echo wp_kses_post($sinopsis); ?></span>
                     </div>
 
                     <!-- Info Detallada -->
@@ -335,8 +335,9 @@ get_header();
                                 <div class="tabs-content">
                                     <!-- TAB: INFO -->
                                     <div class="tab-pane active" id="info">
-                                        <div class="ficha-sinopsis">
-                                            <p><?php echo wp_kses_post($sinopsis); ?></p>
+                                        <div class="info-row ficha-sinopsis">
+                                            <span class="info-label">Sinopsis:</span>
+                                            <span class="info-valor"><?php echo wp_kses_post($sinopsis); ?></span>
                                         </div>
                                         <div class="ficha-info-detallada">
                                             <div class="info-row">
