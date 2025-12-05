@@ -15,7 +15,7 @@ function acf_ficha_register_fields() {
     }
 
     acf_add_local_field_group(array(
-        'key'      => 'group_ficha_animacion',
+        'key'      => 'group_ficha_animacion_final',
         'title'    => 'Ficha Tecnica - Datos Completos',
         'fields'   => acf_ficha_get_all_fields(),
         'location' => array(
@@ -264,38 +264,9 @@ function acf_ficha_get_all_fields() {
             'key'          => 'field_ficha_premios',
             'label'        => 'Premios',
             'name'         => 'premios',
-            'type'         => 'repeater',
+            'type'         => 'textarea',
             'required'     => 0,
-            'layout'       => 'table',
-            'button_label' => 'Anadir Premio',
-            'sub_fields'   => array(
-                array(
-                    'key'     => 'field_ficha_premio_nombre',
-                    'label'   => 'Nombre del premio',
-                    'name'    => 'nombre',
-                    'type'    => 'text',
-                    'required' => 1,
-                    'wrapper' => array('width' => '33.33'),
-                ),
-                array(
-                    'key'     => 'field_ficha_premio_festival',
-                    'label'   => 'Festival',
-                    'name'    => 'festival',
-                    'type'    => 'text',
-                    'required' => 1,
-                    'wrapper' => array('width' => '33.33'),
-                ),
-                array(
-                    'key'     => 'field_ficha_premio_year',
-                    'label'   => 'Ano',
-                    'name'    => 'year',
-                    'type'    => 'number',
-                    'required' => 1,
-                    'wrapper' => array('width' => '33.33'),
-                    'min'     => 1900,
-                    'max'     => 2100,
-                ),
-            ),
+            'rows'         => 4,
         ),
 
         // PESTAÑA 5: DISPONIBLE EN
@@ -313,7 +284,7 @@ function acf_ficha_get_all_fields() {
             'name'         => 'plataformas',
             'type'         => 'repeater',
             'required'     => 0,
-            'layout'       => 'table',
+            'layout'       => 'block', // Changed to block for better control
             'button_label' => 'Anadir Plataforma',
             'sub_fields'   => array(
                 array(
@@ -340,6 +311,23 @@ function acf_ficha_get_all_fields() {
                     'type'     => 'url',
                     'required' => 1,
                     'wrapper'  => array('width' => '50'),
+                ),
+                array(
+                    'key'               => 'field_ficha_plataforma_nombre_otro',
+                    'label'             => 'Nombre de la plataforma',
+                    'name'              => 'nombre_otro',
+                    'type'              => 'text',
+                    'required'          => 1,
+                    'wrapper'           => array('width' => '100'),
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field'    => 'field_ficha_plataforma_servicio',
+                                'operator' => '==',
+                                'value'    => 'otro',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),

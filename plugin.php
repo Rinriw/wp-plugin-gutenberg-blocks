@@ -27,6 +27,7 @@ require_once ACF_BLOCKS_PATH . 'includes/acf-setup.php';
 require_once ACF_BLOCKS_PATH . 'includes/register-blocks.php';
 require_once ACF_BLOCKS_PATH . 'includes/schema-helper.php';
 require_once ACF_BLOCKS_PATH . 'includes/register-ficha-cpt.php';
+require_once ACF_BLOCKS_PATH . 'includes/ficha-fields.php';
 require_once ACF_BLOCKS_PATH . 'includes/ficha-debug.php';
 
 /**
@@ -45,6 +46,8 @@ function acf_blocks_deactivation_hook() {
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'acf_blocks_deactivation_hook');
+
+
 
 /**
  * Encolar estilos compilados de Tailwind
@@ -94,7 +97,7 @@ function acf_blocks_enqueue_ficha_assets() {
                 'ficha-tecnica-styles',
                 ACF_BLOCKS_URL . 'ficha-styles.css',
                 [],
-                filemtime($css_file)
+                time()
             );
         }
         
@@ -114,23 +117,19 @@ function acf_blocks_enqueue_ficha_assets() {
 add_action('wp_enqueue_scripts', 'acf_blocks_enqueue_ficha_assets');
 
 /**
- * Registrar plantilla custom para Ficha Técnica desde el tema
- * IMPORTANTE: La plantilla debe estar en wp-content/themes/[theme]/single-ficha_animacion.php
+ * Cargar plantilla custom para Ficha Técnica desde el plugin
+ * Usamos template_include en lugar de copiar el archivo al tema
  */
-function acf_blocks_register_ficha_template() {
-    // Asegurar que la plantilla exista en el tema
-    $theme_template = get_template_directory() . '/single-ficha_animacion.php';
-    
-    // Asegurar que la plantilla exista en el tema y esté actualizada
-    $theme_template = get_template_directory() . '/single-ficha_animacion.php';
-    
-    // Copiar siempre la plantilla del plugin al tema para aplicar correcciones
-    $plugin_template = ACF_BLOCKS_PATH . 'single-ficha_animacion.php';
-    if (file_exists($plugin_template)) {
-        copy($plugin_template, $theme_template);
+function acf_blocks_template_include($template) {
+    if (is_singular('ficha_animacion')) {
+        $plugin_template = ACF_BLOCKS_PATH . 'single-ficha_animacion.php';
+        if (file_exists($plugin_template)) {
+            return $plugin_template;
+        }
     }
+    return $template;
 }
-add_action('init', 'acf_blocks_register_ficha_template');
+add_filter('template_include', 'acf_blocks_template_include');
 
 /**
  * Inyectar Schema.org JSON-LD en el <head>

@@ -46,6 +46,10 @@ get_header();
         $edicion = get_field('edicion');
         $financiamiento = get_field('financiamiento');
         $premios = get_field('premios');
+        if (!$premios) {
+            // Fallback: Try getting raw meta data (for legacy textarea data)
+            $premios = get_post_meta(get_the_ID(), 'premios', true);
+        }
         $plataformas = get_field('plataformas');
 
         // Determinar formato a mostrar
@@ -146,7 +150,7 @@ get_header();
                     <!-- Info Detallada -->
                     <div class="ficha-info-detallada">
                         <div class="info-row">
-                            <span class="info-label">Direccion:</span>
+                            <span class="info-label">Dirección:</span>
                             <span class="info-valor"><?php echo esc_html($direccion); ?></span>
                         </div>
                         <div class="info-row">
@@ -154,7 +158,7 @@ get_header();
                             <span class="info-valor"><?php echo esc_html($idioma); ?></span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Pais/Region:</span>
+                            <span class="info-label">País/Región:</span>
                             <span class="info-valor"><?php echo esc_html($pais); ?></span>
                         </div>
                     </div>
@@ -165,17 +169,17 @@ get_header();
                             Equipo y Reparto
                         </button>
                         <div id="crew-content" class="accordion-content">
-                            <?php if ($guion) : ?><div class="crew-item"><strong>Guion:</strong> <?php echo esc_html($guion); ?></div><?php endif; ?>
+                            <?php if ($guion) : ?><div class="crew-item"><strong>Guión:</strong> <?php echo esc_html($guion); ?></div><?php endif; ?>
                             <?php if ($productora) : ?><div class="crew-item"><strong>Casa Productora:</strong> <?php echo esc_html($productora); ?></div><?php endif; ?>
-                            <?php if ($produccion) : ?><div class="crew-item"><strong>Produccion:</strong> <?php echo esc_html($produccion); ?></div><?php endif; ?>
-                            <?php if ($animacion) : ?><div class="crew-item"><strong>Animacion:</strong> <?php echo esc_html($animacion); ?></div><?php endif; ?>
+                            <?php if ($produccion) : ?><div class="crew-item"><strong>Producción:</strong> <?php echo esc_html($produccion); ?></div><?php endif; ?>
+                            <?php if ($animacion) : ?><div class="crew-item"><strong>Animación:</strong> <?php echo esc_html($animacion); ?></div><?php endif; ?>
                             <?php if ($reparto) : ?><div class="crew-item"><strong>Reparto:</strong> <?php echo esc_html($reparto); ?></div><?php endif; ?>
-                            <?php if ($fotografia) : ?><div class="crew-item"><strong>Fotografia:</strong> <?php echo esc_html($fotografia); ?></div><?php endif; ?>
-                            <?php if ($musica) : ?><div class="crew-item"><strong>Musica:</strong> <?php echo esc_html($musica); ?></div><?php endif; ?>
+                            <?php if ($fotografia) : ?><div class="crew-item"><strong>Fotografía:</strong> <?php echo esc_html($fotografia); ?></div><?php endif; ?>
+                            <?php if ($musica) : ?><div class="crew-item"><strong>Música:</strong> <?php echo esc_html($musica); ?></div><?php endif; ?>
                             <?php if ($sonido) : ?><div class="crew-item"><strong>Sonido:</strong> <?php echo esc_html($sonido); ?></div><?php endif; ?>
                             <?php if ($dir_arte) : ?><div class="crew-item"><strong>Dir. de arte:</strong> <?php echo esc_html($dir_arte); ?></div><?php endif; ?>
                             <?php if ($montaje) : ?><div class="crew-item"><strong>Montaje:</strong> <?php echo esc_html($montaje); ?></div><?php endif; ?>
-                            <?php if ($edicion) : ?><div class="crew-item"><strong>Edicion:</strong> <?php echo esc_html($edicion); ?></div><?php endif; ?>
+                            <?php if ($edicion) : ?><div class="crew-item"><strong>Edición:</strong> <?php echo esc_html($edicion); ?></div><?php endif; ?>
                         </div>
                     </div>
 
@@ -195,26 +199,43 @@ get_header();
                                 <?php if ($premios) : ?>
                                     <div class="premios-section">
                                         <strong>Premios:</strong>
-                                        <?php if (is_array($premios)) : ?>
-                                            <ul>
-                                                <?php foreach ($premios as $premio) : ?>
-                                                    <li><?php echo esc_html($premio['nombre']); ?> - <?php echo esc_html($premio['festival']); ?> (<?php echo esc_html($premio['year']); ?>)</li>
-                                                <?php endforeach; ?>
-                                            </ul>
-                                        <?php else : ?>
-                                            <div class="premios-text">
-                                                <ul>
-                                                    <?php 
-                                                    $lines = explode("\n", str_replace("\r", "", $premios));
-                                                    foreach ($lines as $line) : 
-                                                        $line = trim($line);
-                                                        if (empty($line)) continue;
-                                                    ?>
-                                                        <li><?php echo esc_html($line); ?></li>
-                                                    <?php endforeach; ?>
-                                                </ul>
-                                            </div>
-                                        <?php endif; ?>
+                                        <?php 
+                                        // Case 1: Repeater (Array of arrays)
+                                        if (is_array($premios) && !empty($premios)) {
+                                            echo '<ul>';
+                                            foreach ($premios as $premio) {
+                                                // Check if it's a repeater row (array) or just a string line
+                                                if (is_array($premio)) {
+                                                    $nombre_premio = isset($premio['nombre']) ? $premio['nombre'] : '';
+                                                    $festival = isset($premio['festival']) ? $premio['festival'] : '';
+                                                    $year_premio = isset($premio['year']) ? $premio['year'] : '';
+                                                    
+                                                    if ($nombre_premio) {
+                                                        echo '<li>' . esc_html($nombre_premio);
+                                                        if ($festival) echo ' - ' . esc_html($festival);
+                                                        if ($year_premio) echo ' (' . esc_html($year_premio) . ')';
+                                                        echo '</li>';
+                                                    }
+                                                } else {
+                                                    // Fallback if array contains strings
+                                                    echo '<li>' . esc_html($premio) . '</li>';
+                                                }
+                                            }
+                                            echo '</ul>';
+                                        } 
+                                        // Case 2: Textarea (String)
+                                        elseif (is_string($premios)) {
+                                            echo '<div class="premios-text"><ul>';
+                                            $lines = explode("\n", str_replace("\r", "", $premios));
+                                            foreach ($lines as $line) {
+                                                $line = trim($line);
+                                                if (!empty($line)) {
+                                                    echo '<li>' . esc_html($line) . '</li>';
+                                                }
+                                            }
+                                            echo '</ul></div>';
+                                        }
+                                        ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -229,8 +250,13 @@ get_header();
                                 <?php foreach ($plataformas as $plat) : ?>
                                     <a href="<?php echo esc_url($plat['link']); ?>" 
                                        class="plataforma-btn plat-<?php echo esc_attr($plat['servicio']); ?>"
-                                       target="_blank" rel="noopener">
-                                        <?php echo esc_html(ucfirst($plat['servicio'])); ?>
+                                       target="_blank" rel="noopener"
+                                       aria-label="<?php echo esc_attr(ucfirst($plat['servicio'])); ?>">
+                                        <?php 
+                                        if ($plat['servicio'] === 'otro' && !empty($plat['nombre_otro'])) {
+                                            echo esc_html($plat['nombre_otro']);
+                                        }
+                                        ?>
                                     </a>
                                 <?php endforeach; ?>
                             </div>
@@ -260,8 +286,13 @@ get_header();
                                         <?php foreach ($plataformas as $plat) : ?>
                                             <a href="<?php echo esc_url($plat['link']); ?>" 
                                                class="plataforma-btn plat-<?php echo esc_attr($plat['servicio']); ?>"
-                                               target="_blank" rel="noopener">
-                                                <?php echo esc_html(ucfirst($plat['servicio'])); ?>
+                                               target="_blank" rel="noopener"
+                                               aria-label="<?php echo esc_attr(ucfirst($plat['servicio'])); ?>">
+                                                <?php 
+                                                if ($plat['servicio'] === 'otro' && !empty($plat['nombre_otro'])) {
+                                                    echo esc_html($plat['nombre_otro']);
+                                                }
+                                                ?>
                                             </a>
                                         <?php endforeach; ?>
                                     </div>
