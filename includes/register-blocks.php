@@ -60,7 +60,7 @@ function acf_blocks_enqueue_block_scripts() {
     foreach ($blocks as $block) {
         $block_name = basename($block);
         $js_file = $block . '/' . $block_name . '.js';
-        $css_file = $block . '/styles.css';
+        $css_file = $block . '/style.css';
         
         // Encolar JS si existe
         if (file_exists($js_file)) {
@@ -71,15 +71,25 @@ function acf_blocks_enqueue_block_scripts() {
                 filemtime($js_file),
                 true
             );
+            
+            // Localize script with API data
+            wp_localize_script(
+                'acf-block-' . $block_name,
+                'acf_blocks_data',
+                [
+                    'root' => esc_url_raw(rest_url()),
+                    'nonce' => wp_create_nonce('wp_rest')
+                ]
+            );
         }
         
         // Encolar CSS si existe
         if (file_exists($css_file)) {
             wp_enqueue_style(
                 'acf-block-' . $block_name . '-styles',
-                ACF_BLOCKS_URL . 'blocks/' . $block_name . '/styles.css',
+                ACF_BLOCKS_URL . 'blocks/' . $block_name . '/style.css',
                 [],
-                filemtime($css_file)
+                time() // Force cache refresh
             );
         }
     }

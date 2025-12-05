@@ -1,0 +1,105 @@
+.que-ver-hoy-block {
+    width: 100%;
+    max-width: 300px;
+    /* Ancho máximo sugerido para tarjeta vertical */
+    margin: 0 auto;
+    font-family: inherit;
+}
+
+.que-ver-hoy-card {
+    display: block;
+    position: relative;
+    background-color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.que-ver-hoy-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.que-ver-hoy-image {
+    position: relative;
+    width: 100%;
+    padding-top: 140%;
+    /* Aspect ratio aproximado de afiche (5:7) */
+    background-color: #f0f0f0;
+    overflow: hidden;
+}
+
+.que-ver-hoy-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.que-ver-hoy-card:hover .que-ver-hoy-image img {
+    transform: scale(1.05);
+}
+
+.que-ver-hoy-info {
+    padding: 16px;
+    text-align: center;
+    background: #fff;
+}
+
+.que-ver-hoy-title {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #1a1a1a;
+}
+
+.que-ver-hoy-year {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.que-ver-hoy-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: #e63946;
+    /* Color llamativo */
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* Ajustes para modo oscuro si el tema lo soporta */
+@media (prefers-color-scheme: dark) {
+    .que-ver-hoy-card {
+        background-color: #2a2a2a;
+    }
+
+    .que-ver-hoy-info {
+        background-color: #2a2a2a;
+    }
+
+    .que-ver-hoy-title {
+        color: #fff;
+    }
+
+    .que-ver-hoy-year {
+        color: #aaa;
+    }
+}

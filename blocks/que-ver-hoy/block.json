@@ -1,0 +1,21 @@
+{
+    "name": "acf/que-ver-hoy",
+    "title": "Qué ver hoy",
+    "description": "Muestra una recomendación diaria de una obra audiovisual.",
+    "category": "acf-blocks",
+    "icon": "calendar-alt",
+    "keywords": [
+        "recomendación",
+        "diaria",
+        "animación",
+        "ficha"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "supports": {
+        "align": false
+    },
+    "style": "file:./style.css"
+}

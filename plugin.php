@@ -29,6 +29,7 @@ require_once ACF_BLOCKS_PATH . 'includes/schema-helper.php';
 require_once ACF_BLOCKS_PATH . 'includes/register-ficha-cpt.php';
 require_once ACF_BLOCKS_PATH . 'includes/ficha-fields.php';
 require_once ACF_BLOCKS_PATH . 'includes/ficha-debug.php';
+require_once ACF_BLOCKS_PATH . 'includes/api-search.php';
 
 /**
  * Flush rewrite rules cuando se activa el plugin

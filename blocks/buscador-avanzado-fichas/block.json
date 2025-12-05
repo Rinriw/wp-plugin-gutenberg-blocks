@@ -1,0 +1,25 @@
+{
+    "name": "acf/buscador-avanzado-fichas",
+    "title": "Buscador Avanzado Fichas",
+    "description": "Buscador y filtros para el catálogo de animación.",
+    "style": "file:./style.css",
+    "script": "file:./script.js",
+    "category": "acf-blocks",
+    "icon": "search",
+    "keywords": [
+        "buscador",
+        "fichas",
+        "animacion",
+        "filtro"
+    ],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "supports": {
+        "align": [
+            "full",
+            "wide"
+        ]
+    }
+}
